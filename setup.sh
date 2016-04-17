@@ -154,7 +154,7 @@ echo ""
 
 echo "Installing necessary dependencies..."
 
-apt-get install libnss3-dev libnspr4-dev pkg-config libpam0g-dev libcap-ng-dev libcap-ng-utils libselinux1-dev libcurl4-nss-dev libgmp3-dev flex bison gcc make libunbound-dev libnss3-tools -y  > /dev/null
+apt-get install libnss3-dev libnspr4-dev pkg-config libpam0g-dev libcap-ng-dev libcap-ng-utils libselinux1-dev libcurl4-nss-dev libgmp3-dev flex bison gcc make libunbound-dev libnss3-tools libevent-dev xmlto -y  > /dev/null
 
 if [ "$?" = "1" ]
 then
@@ -175,8 +175,8 @@ fi
 mkdir -p /opt/src
 cd /opt/src
 echo "Downloading LibreSwan's source..."
-wget -qO- https://download.libreswan.org/libreswan-3.13.tar.gz | tar xvz > /dev/null
-cd libreswan-3.13
+wget -qO- https://download.libreswan.org/libreswan-3.15.tar.gz | tar xvz > /dev/null
+cd libreswan-3.15
 echo "Compiling LibreSwan..."
 make programs > /dev/null
 echo "Installing LibreSwan..."

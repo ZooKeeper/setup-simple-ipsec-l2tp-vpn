@@ -13,10 +13,10 @@ then
   exit 0
 fi
 
-ipsec --version | grep 3.13 > /dev/null
+ipsec --version | grep "Libreswan 3.15" > /dev/null
 if [ "$?" = "0" ]
 then
-  echo "You already have LibreSwan 3.13 installed!"
+  echo "You already have LibreSwan 3.15 installed!"
   echo "Do you wish to continue anyway?"
   while true; do
     read -p "" yn
@@ -29,8 +29,8 @@ then
   echo ""
 fi
 
-echo "This script will build and install LibreSwan 3.13 on your server."
-echo "This is intended for users who have already installed a VPN server but have LibreSwan of version < 3.13 installed."
+echo "This script will build and install LibreSwan 3.15 on your server."
+echo "This is intended for users who have already installed a VPN server but have LibreSwan of version < 3.15 installed."
 echo "Do you wish to continue?"
 
 while true; do
@@ -44,31 +44,36 @@ done
 
 echo ""
 
+echo "Updating apt-get and installing new dependencies needed to build LibreSwan 3.15..."
+apt-get update > /dev/null
+apt-get install libevent-dev xmlto -y  > /dev/null
+
 mkdir -p /opt/src
+
 cd /opt/src
 echo "Downloading LibreSwan's source..."
-wget -qO- https://download.libreswan.org/libreswan-3.13.tar.gz | tar xvz > /dev/null
-cd libreswan-3.13
+wget -qO- https://download.libreswan.org/libreswan-3.15.tar.gz | tar xvz > /dev/null
+cd libreswan-3.15
 echo "Compiling LibreSwan..."
 make programs > /dev/null
 echo "Installing LibreSwan..."
 make install > /dev/null
 
-ipsec --version | grep 3.13 > /dev/null
+ipsec --version | grep "Libreswan 3.15" > /dev/null
 
 if [ "$?" = "0" ]
 then
-  echo "LibreSwan 3.13 was installed successfully!"
-  
-  # this script is for users with an existing instlallation, so they most probably will not have the ipsec-assist service installed.
+  echo "LibreSwan 3.15 was installed successfully!"
+
+  # this script is for users with an existing installation, so they most probably will not have the ipsec-assist service installed.
 
   service xl2tpd restart
   service ipsec restart
 
-  exit 0;;
+  exit 0
 fi
 
-echo "LibreSwan 3.13 was not installed successfully :/"
+echo "LibreSwan 3.15 was not installed successfully :/"
 echo "Exiting script."
 
 exit 0
